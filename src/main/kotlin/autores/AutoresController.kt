@@ -36,5 +36,24 @@ class AutoresController (@Inject val autorRepository: AutorRepository){
         return HttpResponse.ok(AutorResponse(autor))
     }
 
+    @Put("/{id}")
+    fun atualiza(@PathVariable id: Long, descricao: String): HttpResponse<Any>{
+        //buscar o objeto no banco
+        val possivelAutor = autorRepository.findById(id)
+        if (possivelAutor.isEmpty){
+            return HttpResponse.notFound()
+        }
+        val autor = possivelAutor.get()
+
+        //alterar a descricao
+        autor.descricao = descricao
+
+        //atualizar o objeto no banco
+        autorRepository.update(autor)
+
+        //retorna uma resposta de que tudo correu bem
+        return HttpResponse.ok(AutorResponse(autor))
+    }
+
 
 }
