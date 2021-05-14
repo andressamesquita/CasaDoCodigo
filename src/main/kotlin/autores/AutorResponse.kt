@@ -2,7 +2,7 @@ package autores
 
 import java.time.LocalDateTime
 
-class AutorResponse (private val autor: Autor){
+class AutorResponse (autor: Autor){
     val nome: String = autor.nome
     val email: String = autor.email
     val descricao: String = autor.descricao
