@@ -37,6 +37,7 @@ class AutoresController (@Inject val autorRepository: AutorRepository){
     }
 
     @Put("/{id}")
+    @Transactional
     fun atualiza(@PathVariable id: Long, descricao: String): HttpResponse<Any>{
         //buscar o objeto no banco
         val possivelAutor = autorRepository.findById(id)
@@ -49,13 +50,15 @@ class AutoresController (@Inject val autorRepository: AutorRepository){
         autor.descricao = descricao
 
         //atualizar o objeto no banco
-        autorRepository.update(autor)
+        autorRepository.update(autor) //com a anotacao transactional, se essa linha for excluida, a atualizacao sera feita implicitamente
+        //pois a entidade encontra-se gerenciavel pela JPA -- ciclo de vida
 
         //retorna uma resposta de que tudo correu bem
         return HttpResponse.ok(AutorResponse(autor))
     }
 
     @Delete("/{id}")
+    @Transactional
     fun deleta(@PathVariable id: Long): HttpResponse<Any>{
         var possivelAutor = autorRepository.findById(id)
         if (possivelAutor.isEmpty){
