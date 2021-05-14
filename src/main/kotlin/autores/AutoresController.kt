@@ -55,5 +55,15 @@ class AutoresController (@Inject val autorRepository: AutorRepository){
         return HttpResponse.ok(AutorResponse(autor))
     }
 
+    @Delete("/{id}")
+    fun deleta(@PathVariable id: Long): HttpResponse<Any>{
+        var possivelAutor = autorRepository.findById(id)
+        if (possivelAutor.isEmpty){
+            return HttpResponse.notFound()
+        }
+        autorRepository.deleteById(id)
+        return HttpResponse.ok()
+    }
+
 
 }
