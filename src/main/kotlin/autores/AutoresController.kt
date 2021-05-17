@@ -11,12 +11,17 @@ import javax.validation.Valid
 
 @Validated
 @Controller("/autores")
-class AutoresController (@Inject val autorRepository: AutorRepository){
+class AutoresController (@Inject val autorRepository: AutorRepository,
+                         @Inject val enderecoClient: EnderecoClient){
 
     @Post
     @Transactional
     fun cadastra(@Valid @Body request: AutorRequest): HttpResponse<Any> {
-        val autor: Autor = request.paraAutor()
+
+        //fazer uma requisição para um serviço externo através de um Client
+        val enderecoResponse = enderecoClient.consulta(request.cep)
+
+        val autor: Autor = request.paraAutor(enderecoResponse.body()!!)
         autorRepository.save(autor)
 
         val uri = UriBuilder.of("/autores/{id}")

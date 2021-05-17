@@ -6,9 +6,11 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity //eh por padrao uma Introspected
-class Autor (val nome:String,
-             val email:String,
-             var descricao: String){
+class Autor (val nome: String,
+             val email: String,
+             var descricao: String,
+             val endereco: Endereco
+){
 
     @Id
     @GeneratedValue
